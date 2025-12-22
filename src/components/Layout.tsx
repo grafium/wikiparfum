@@ -5,29 +5,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const navLinks = [
-  { href: '/perfumes', label: 'Parfümök' },
-  { href: '/brands', label: 'Márkák' },
-  { href: '/notes', label: 'Illatjegyek' },
-  { href: '/collections', label: 'Gyűjtemények' },
-];
-
+const navLinks = [{
+  href: '/perfumes',
+  label: 'Parfümök'
+}, {
+  href: '/brands',
+  label: 'Márkák'
+}, {
+  href: '/notes',
+  label: 'Illatjegyek'
+}, {
+  href: '/collections',
+  label: 'Gyűjtemények'
+}];
 export default function Layout() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
     }
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4">
@@ -35,46 +37,27 @@ export default function Layout() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               <span className="font-serif text-xl md:text-2xl font-semibold tracking-tight">
-                Parfüm<span className="text-primary">pedia</span>
+                Parfüm<span className="text-primary">     Wikipedia</span>
               </span>
             </Link>
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    location.pathname.startsWith(link.href)
-                      ? 'text-primary'
-                      : 'text-muted-foreground'
-                  }`}
-                >
+              {navLinks.map(link => <Link key={link.href} to={link.href} className={`text-sm font-medium transition-colors hover:text-primary ${location.pathname.startsWith(link.href) ? 'text-primary' : 'text-muted-foreground'}`}>
                   {link.label}
-                </Link>
-              ))}
+                </Link>)}
             </nav>
 
             {/* Actions */}
             <div className="flex items-center gap-2">
               {/* Search Toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="text-muted-foreground hover:text-foreground"
-              >
+              <Button variant="ghost" size="icon" onClick={() => setSearchOpen(!searchOpen)} className="text-muted-foreground hover:text-foreground">
                 <Search className="h-5 w-5" />
               </Button>
 
               {/* Favorites */}
               <Link to="/favorites">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-muted-foreground hover:text-foreground"
-                >
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                   <Heart className="h-5 w-5" />
                 </Button>
               </Link>
@@ -88,16 +71,9 @@ export default function Layout() {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-72">
                   <nav className="flex flex-col gap-4 mt-8">
-                    {navLinks.map((link) => (
-                      <Link
-                        key={link.href}
-                        to={link.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="text-lg font-medium py-2 border-b border-border"
-                      >
+                    {navLinks.map(link => <Link key={link.href} to={link.href} onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-border">
                         {link.label}
-                      </Link>
-                    ))}
+                      </Link>)}
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -106,37 +82,26 @@ export default function Layout() {
 
           {/* Search Bar */}
           <AnimatePresence>
-            {searchOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
+            {searchOpen && <motion.div initial={{
+            height: 0,
+            opacity: 0
+          }} animate={{
+            height: 'auto',
+            opacity: 1
+          }} exit={{
+            height: 0,
+            opacity: 0
+          }} className="overflow-hidden">
                 <form onSubmit={handleSearch} className="py-4">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Keresés parfümök, márkák, illatjegyek között..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10 pr-10 h-12 bg-muted/50 border-0 focus-visible:ring-primary"
-                      autoFocus
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setSearchOpen(false)}
-                      className="absolute right-1 top-1/2 -translate-y-1/2"
-                    >
+                    <Input type="search" placeholder="Keresés parfümök, márkák, illatjegyek között..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 pr-10 h-12 bg-muted/50 border-0 focus-visible:ring-primary" autoFocus />
+                    <Button type="button" variant="ghost" size="icon" onClick={() => setSearchOpen(false)} className="absolute right-1 top-1/2 -translate-y-1/2">
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
                 </form>
-              </motion.div>
-            )}
+              </motion.div>}
           </AnimatePresence>
         </div>
       </header>
@@ -185,6 +150,5 @@ export default function Layout() {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }
