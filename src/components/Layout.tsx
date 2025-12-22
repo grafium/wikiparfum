@@ -1,154 +1,273 @@
 import { useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Heart, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { motion, AnimatePresence } from 'framer-motion';
-const navLinks = [{
-  href: '/perfumes',
-  label: 'Parfümök'
-}, {
-  href: '/brands',
-  label: 'Márkák'
-}, {
-  href: '/notes',
-  label: 'Illatjegyek'
-}, {
-  href: '/collections',
-  label: 'Gyűjtemények'
-}];
+
+const navLinks = [
+  { href: '/perfumes', label: 'Parfümök' },
+  { href: '/brands', label: 'Márkák' },
+  { href: '/notes', label: 'Illatjegyek' },
+  { href: '/collections', label: 'Gyűjtemények' },
+];
+
 export default function Layout() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setSearchOpen(false);
+      setSearchQuery('');
     }
   };
-  return <div className="min-h-screen bg-background">
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <span className="font-serif text-xl md:text-2xl font-semibold tracking-tight">
-                Parfüm<span className="text-primary">     Wikipedia</span>
-              </span>
-            </Link>
-
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map(link => <Link key={link.href} to={link.href} className={`text-sm font-medium transition-colors hover:text-primary ${location.pathname.startsWith(link.href) ? 'text-primary' : 'text-muted-foreground'}`}>
-                  {link.label}
-                </Link>)}
-            </nav>
-
-            {/* Actions */}
-            <div className="flex items-center gap-2">
-              {/* Search Toggle */}
-              <Button variant="ghost" size="icon" onClick={() => setSearchOpen(!searchOpen)} className="text-muted-foreground hover:text-foreground">
-                <Search className="h-5 w-5" />
-              </Button>
-
-              {/* Favorites */}
-              <Link to="/favorites">
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-                  <Heart className="h-5 w-5" />
-                </Button>
-              </Link>
-
-              {/* Mobile Menu */}
+      <header className="sticky top-0 z-50 bg-background border-b border-border/50">
+        <div className="container mx-auto">
+          {/* Top bar - Logo centered */}
+          <div className="flex items-center justify-center py-6 relative">
+            {/* Mobile menu trigger - left */}
+            <div className="absolute left-4 md:hidden">
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                <SheetTrigger asChild className="md:hidden">
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-5 w-5" />
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-foreground">
+                    <Menu className="h-5 w-5" strokeWidth={1.5} />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-72">
-                  <nav className="flex flex-col gap-4 mt-8">
-                    {navLinks.map(link => <Link key={link.href} to={link.href} onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-border">
-                        {link.label}
-                      </Link>)}
-                  </nav>
+                <SheetContent side="left" className="w-80 p-0">
+                  <div className="flex flex-col h-full">
+                    <div className="p-6 border-b border-border">
+                      <span className="font-serif text-xl tracking-wide">
+                        Parfümpédia
+                      </span>
+                    </div>
+                    <nav className="flex-1 p-6">
+                      <ul className="space-y-1">
+                        {navLinks.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              to={link.href}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className={`block py-3 text-uppercase-spaced transition-colors ${
+                                location.pathname.startsWith(link.href)
+                                  ? 'text-foreground'
+                                  : 'text-muted-foreground hover:text-foreground'
+                              }`}
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                    <div className="p-6 border-t border-border">
+                      <Link
+                        to="/favorites"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-3 text-uppercase-spaced text-muted-foreground hover:text-foreground"
+                      >
+                        <Heart className="h-4 w-4" strokeWidth={1.5} />
+                        Kedvencek
+                      </Link>
+                    </div>
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>
+
+            {/* Logo - Center */}
+            <Link to="/" className="text-center">
+              <span className="font-serif text-2xl md:text-3xl tracking-wide">
+                Parfümpédia
+              </span>
+            </Link>
+
+            {/* Actions - right */}
+            <div className="absolute right-4 flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="text-foreground hover:bg-transparent hover:text-primary"
+              >
+                <Search className="h-5 w-5" strokeWidth={1.5} />
+              </Button>
+              <Link to="/favorites" className="hidden md:block">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-foreground hover:bg-transparent hover:text-primary"
+                >
+                  <Heart className="h-5 w-5" strokeWidth={1.5} />
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Search Bar */}
-          <AnimatePresence>
-            {searchOpen && <motion.div initial={{
-            height: 0,
-            opacity: 0
-          }} animate={{
-            height: 'auto',
-            opacity: 1
-          }} exit={{
-            height: 0,
-            opacity: 0
-          }} className="overflow-hidden">
-                <form onSubmit={handleSearch} className="py-4">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input type="search" placeholder="Keresés parfümök, márkák, illatjegyek között..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 pr-10 h-12 bg-muted/50 border-0 focus-visible:ring-primary" autoFocus />
-                    <Button type="button" variant="ghost" size="icon" onClick={() => setSearchOpen(false)} className="absolute right-1 top-1/2 -translate-y-1/2">
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </form>
-              </motion.div>}
-          </AnimatePresence>
+          {/* Desktop Navigation - Below logo */}
+          <nav className="hidden md:flex items-center justify-center gap-10 pb-5">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`text-uppercase-spaced link-underline py-1 transition-colors ${
+                  location.pathname.startsWith(link.href)
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
+
+        {/* Search Bar - Full width overlay */}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-x-0 top-full bg-background border-b border-border"
+            >
+              <div className="container mx-auto py-6">
+                <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto">
+                  <Input
+                    type="search"
+                    placeholder="Keresés parfümök, márkák, illatjegyek között..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full h-12 px-0 bg-transparent border-0 border-b border-border rounded-none text-base placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:border-foreground"
+                    autoFocus
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setSearchOpen(false);
+                      setSearchQuery('');
+                    }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 hover:bg-transparent"
+                  >
+                    <X className="h-5 w-5" strokeWidth={1.5} />
+                  </Button>
+                </form>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Main Content */}
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
 
       {/* Footer */}
-      <footer className="bg-muted/30 border-t border-border mt-20">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="col-span-2 md:col-span-1">
-              <Link to="/" className="font-serif text-xl font-semibold">
-                Parfüm<span className="text-primary">       Wikipedia</span>
+      <footer className="border-t border-border mt-24">
+        <div className="container mx-auto py-16">
+          {/* Footer top */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <Link to="/" className="font-serif text-xl tracking-wide">
+                Parfümpédia
               </Link>
-              <p className="mt-3 text-sm text-muted-foreground">
-                A parfümök enciklopédiája. Fedezd fel az illatok világát.
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                A parfümök enciklopédiája.<br />
+                Fedezd fel az illatok világát.
               </p>
             </div>
+
+            {/* Links */}
             <div>
-              <h4 className="font-semibold mb-3">Felfedezés</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/perfumes" className="hover:text-foreground">Parfümök</Link></li>
-                <li><Link to="/brands" className="hover:text-foreground">Márkák</Link></li>
-                <li><Link to="/notes" className="hover:text-foreground">Illatjegyek</Link></li>
+              <h4 className="text-uppercase-spaced mb-5">Felfedezés</h4>
+              <ul className="space-y-3">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-3">Gyűjtemények</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/collections" className="hover:text-foreground">Összes gyűjtemény</Link></li>
-                <li><Link to="/favorites" className="hover:text-foreground">Kedvenceim</Link></li>
+              <h4 className="text-uppercase-spaced mb-5">Személyes</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/favorites"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Kedvencek
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Keresés
+                  </Link>
+                </li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-3">Információ</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/about" className="hover:text-foreground">Rólunk</Link></li>
+              <h4 className="text-uppercase-spaced mb-5">Információ</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/about"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Rólunk
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
-          <div className="mt-10 pt-6 border-t border-border text-center text-sm text-muted-foreground">
-            © 2024 Parfümpedia. Minden jog fenntartva.
+
+          {/* Footer bottom */}
+          <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} Parfümpédia. Minden jog fenntartva.
+            </p>
+            <div className="flex items-center gap-6">
+              <Link
+                to="/about"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Adatvédelem
+              </Link>
+              <Link
+                to="/about"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Felhasználási feltételek
+              </Link>
+            </div>
           </div>
         </div>
       </footer>
-    </div>;
+    </div>
+  );
 }
