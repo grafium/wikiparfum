@@ -19,28 +19,34 @@ import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Index />} />
+        <Route path="/perfumes" element={<Perfumes />} />
+        <Route path="/perfumes/:slug" element={<PerfumeDetail />} />
+        <Route path="/brands" element={<Brands />} />
+        <Route path="/brands/:slug" element={<BrandDetail />} />
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/notes/:slug" element={<NoteDetail />} />
+        <Route path="/collections" element={<Collections />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/about" element={<About />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/perfumes" element={<Perfumes />} />
-            <Route path="/perfumes/:slug" element={<PerfumeDetail />} />
-            <Route path="/brands" element={<Brands />} />
-            <Route path="/brands/:slug" element={<BrandDetail />} />
-            <Route path="/notes" element={<Notes />} />
-            <Route path="/notes/:slug" element={<NoteDetail />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/about" element={<About />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
