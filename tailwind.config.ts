@@ -7,12 +7,20 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
         "2xl": "1400px",
       },
     },
     extend: {
+      fontFamily: {
+        serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "DM Sans", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,33 +65,92 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          light: "hsl(var(--gold-light))",
+          dark: "hsl(var(--gold-dark))",
+        },
+        champagne: "hsl(var(--champagne))",
+        ivory: "hsl(var(--ivory))",
+        charcoal: {
+          DEFAULT: "hsl(var(--charcoal))",
+          light: "hsl(var(--charcoal-light))",
+        },
+        "warm-gray": "hsl(var(--warm-gray))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontSize: {
+        "display-1": ["4rem", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+        "display-2": ["3rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
+        "display-3": ["2.25rem", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
+        "heading-1": ["1.875rem", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
+        "heading-2": ["1.5rem", { lineHeight: "1.3", letterSpacing: "-0.01em" }],
+        "heading-3": ["1.25rem", { lineHeight: "1.35" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.7" }],
+        "body": ["1rem", { lineHeight: "1.7" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.6" }],
+        "caption": ["0.75rem", { lineHeight: "1.5" }],
+      },
+      spacing: {
+        "18": "4.5rem",
+        "22": "5.5rem",
+        "30": "7.5rem",
+      },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "slide-up": {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "slide-down": {
+          from: { opacity: "0", transform: "translateY(-20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "scale-in": {
+          from: { opacity: "0", transform: "scale(0.95)" },
+          to: { opacity: "1", transform: "scale(1)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 2s infinite linear",
+        float: "float 3s ease-in-out infinite",
+        "fade-in": "fade-in 0.3s ease-out",
+        "slide-up": "slide-up 0.4s ease-out",
+        "slide-down": "slide-down 0.4s ease-out",
+        "scale-in": "scale-in 0.3s ease-out",
+      },
+      transitionDuration: {
+        fast: "150ms",
+        base: "250ms",
+        slow: "400ms",
+      },
+      transitionTimingFunction: {
+        luxury: "cubic-bezier(0.4, 0, 0.2, 1)",
       },
     },
   },
