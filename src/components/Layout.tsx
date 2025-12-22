@@ -117,7 +117,7 @@ export default function Layout() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
               <Link to="/" className="font-serif text-xl font-semibold">
-                Parfüm<span className="text-primary">pedia</span>
+                Parfüm<span className="text-primary">       Wikipedia</span>
               </Link>
               <p className="mt-3 text-sm text-muted-foreground">
                 A parfümök enciklopédiája. Fedezd fel az illatok világát.
