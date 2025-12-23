@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeftRight, X, ChevronDown } from "lucide-react";
 import { perfumes, getPerfumeById } from "@/data/perfumes";
@@ -320,8 +320,24 @@ function EmptySlot({ onSelect, otherPerfumeId }: { onSelect: (perfume: Perfume) 
 }
 
 export default function Compare() {
+  const [searchParams] = useSearchParams();
   const [perfume1, setPerfume1] = useState<Perfume | null>(null);
   const [perfume2, setPerfume2] = useState<Perfume | null>(null);
+
+  // Load perfumes from URL parameters
+  useEffect(() => {
+    const perfume1Id = searchParams.get('perfume1');
+    const perfume2Id = searchParams.get('perfume2');
+    
+    if (perfume1Id) {
+      const foundPerfume = getPerfumeById(perfume1Id);
+      if (foundPerfume) setPerfume1(foundPerfume);
+    }
+    if (perfume2Id) {
+      const foundPerfume = getPerfumeById(perfume2Id);
+      if (foundPerfume) setPerfume2(foundPerfume);
+    }
+  }, [searchParams]);
 
   const handleSwap = () => {
     const temp = perfume1;
