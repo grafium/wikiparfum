@@ -34,13 +34,10 @@ export default function Brands() {
                       </span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="font-serif text-heading-3 text-foreground">{brand.name}</h3>
-                    <p className="text-sm text-muted-foreground">{brand.country} • {brand.foundedYear}</p>
-                  </div>
                 </div>
-                <div className="p-4 pt-2">
+                <div className="p-5">
+                  <h3 className="font-serif text-heading-3 mb-1">{brand.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{brand.country} • {brand.foundedYear}</p>
                   <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded text-xs capitalize">
                     {brand.type}
                   </span>
