@@ -214,6 +214,14 @@ export default function Layout() {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    to="/compare"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Összehasonlítás
+                  </Link>
+                </li>
+                <li>
                   <Link to="/search" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                     Keresés
                   </Link>

@@ -16,6 +16,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import SearchPage from "./pages/SearchPage";
 import Favorites from "./pages/Favorites";
+import Compare from "./pages/Compare";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
@@ -40,6 +41,7 @@ function AppRoutes() {
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/compare" element={<Compare />} />
         <Route path="/about" element={<About />} />
         <Route path="/about" element={<About />} />
       </Route>
