@@ -5,6 +5,7 @@ import { getPerfumeBySlug, getSimilarPerfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
 import { getNoteById } from '@/data/notes';
 import { useFavorites } from '@/hooks/useFavorites';
+import { getNoteImage } from '@/data/noteImages';
 
 export default function PerfumeDetail() {
   const { slug } = useParams();
@@ -22,15 +23,36 @@ export default function PerfumeDetail() {
     const notes = noteIds.map(id => getNoteById(id)).filter(Boolean);
     return (
       <div>
-        <h4 className="text-sm font-medium text-muted-foreground mb-2">{label}</h4>
-        <div className="flex flex-wrap gap-2">
-          {notes.map(note => note && (
-            <Link key={note.id} to={`/notes/${note.slug}`}>
-              <span className="px-3 py-1.5 bg-muted rounded-full text-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                {note.name}
-              </span>
-            </Link>
-          ))}
+        <h4 className="text-sm font-medium text-muted-foreground mb-4">{label}</h4>
+        <div className="flex flex-wrap gap-4">
+          {notes.map(note => {
+            if (!note) return null;
+            const image = getNoteImage(note.id);
+            return (
+              <Link 
+                key={note.id} 
+                to={`/notes/${note.slug}`}
+                className="group flex flex-col items-center text-center"
+              >
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-border/50 group-hover:border-primary transition-colors overflow-hidden bg-muted mb-1.5">
+                  {image ? (
+                    <img 
+                      src={image} 
+                      alt={note.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
+                      {note.name.charAt(0)}
+                    </div>
+                  )}
+                </div>
+                <span className="text-xs font-medium text-foreground group-hover:text-primary transition-colors">
+                  {note.name}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     );
@@ -117,7 +139,7 @@ export default function PerfumeDetail() {
       {/* Fragrance Pyramid */}
       <section className="mt-12">
         <h2 className="font-serif text-heading-2 mb-6">Illatpiramis</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-8">
           {renderNotes(perfume.topNotes, 'Fejjegyek')}
           {renderNotes(perfume.heartNotes, 'Szívjegyek')}
           {renderNotes(perfume.baseNotes, 'Alapjegyek')}
