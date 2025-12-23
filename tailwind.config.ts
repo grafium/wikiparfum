@@ -70,6 +70,11 @@ export default {
           light: "hsl(var(--gold-light))",
           dark: "hsl(var(--gold-dark))",
         },
+        ruby: {
+          DEFAULT: "hsl(var(--ruby))",
+          light: "hsl(var(--ruby-light))",
+          dark: "hsl(var(--ruby-dark))",
+        },
         champagne: "hsl(var(--champagne))",
         ivory: "hsl(var(--ivory))",
         charcoal: {
