@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/brands", label: "Márkák" },
   { href: "/notes", label: "Illatjegyek" },
   { href: "/collections", label: "Gyűjtemények" },
+  { href: "/compare", label: "Összehasonlítás" },
 ];
 
 export default function Layout() {
