@@ -1,8 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
 import { getCollectionBySlug } from '@/data/collections';
-import { getPerfumeById } from '@/data/perfumes';
+import { getPerfumeById, perfumes as allPerfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
 import { getCollectionImage } from '@/data/collectionImages';
+import { getPerfumeImage } from '@/data/perfumeImages';
 import NotFound from './NotFound';
 
 export default function CollectionDetail() {
@@ -72,8 +73,12 @@ export default function CollectionDetail() {
                 className="group"
               >
                 <div className="bg-white p-5 hover:shadow-lg transition-shadow">
-                  <div className="w-full aspect-square bg-[#f5f3f0] mb-4 flex items-center justify-center">
-                    <span className="text-4xl">🧴</span>
+                  <div className="w-full aspect-square bg-[#f5f3f0] mb-4 overflow-hidden">
+                    <img 
+                      src={getPerfumeImage(allPerfumes.findIndex(p => p.id === perfume.id))}
+                      alt={perfume.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <p className="text-xs text-primary mb-1">{brand?.name}</p>
                   <h3 className="font-serif text-base font-medium text-foreground group-hover:text-primary transition-colors">

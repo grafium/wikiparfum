@@ -1,7 +1,8 @@
 import { useSearchParams, Link } from 'react-router-dom';
-import { searchPerfumes } from '@/data/perfumes';
+import { searchPerfumes, perfumes } from '@/data/perfumes';
 import { searchBrands, getBrandById } from '@/data/brands';
 import { searchNotes } from '@/data/notes';
+import { getPerfumeImage } from '@/data/perfumeImages';
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -34,8 +35,12 @@ export default function SearchPage() {
                   return (
                     <Link key={p.id} to={`/perfumes/${p.slug}`}>
                       <div className="luxury-card p-4 text-center">
-                        <div className="w-full aspect-square bg-muted mb-3 flex items-center justify-center">
-                          <span className="text-3xl">🧴</span>
+                        <div className="w-full aspect-square bg-muted mb-3 overflow-hidden">
+                          <img 
+                            src={getPerfumeImage(perfumes.findIndex(perf => perf.id === p.id))}
+                            alt={p.name}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <p className="text-xs text-primary mb-1">{brand?.name}</p>
                         <h3 className="font-serif text-sm font-medium">{p.name}</h3>

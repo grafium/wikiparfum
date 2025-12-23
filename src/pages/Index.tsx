@@ -12,13 +12,7 @@ import { getBlogImage } from '@/data/blogImages';
 
 // Import images
 import heroPerfume from '@/assets/hero-perfume.jpg';
-import perfume1 from '@/assets/perfume-1.jpg';
-import perfume2 from '@/assets/perfume-2.jpg';
-import perfume3 from '@/assets/perfume-3.jpg';
-import perfume4 from '@/assets/perfume-4.jpg';
-import perfume5 from '@/assets/perfume-5.jpg';
-
-const perfumeImages = [perfume1, perfume2, perfume3, perfume4, perfume5];
+import { getPerfumeImage } from '@/data/perfumeImages';
 
 export default function Index() {
   const dailyPerfume = getRandomPerfume();
@@ -70,7 +64,7 @@ export default function Index() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="aspect-square max-w-md mx-auto md:mx-0">
             <img
-              src={perfumeImages[Math.floor(Math.random() * perfumeImages.length)]}
+              src={getPerfumeImage(0)}
               alt={dailyPerfume.name}
               className="w-full h-full object-cover"
             />
@@ -159,7 +153,7 @@ export default function Index() {
                 <Link key={perfume.id} to={`/perfumes/${perfume.slug}`} className="group">
                   <div className="mb-4 aspect-square overflow-hidden bg-muted">
                     <img
-                      src={perfumeImages[index % perfumeImages.length]}
+                      src={getPerfumeImage(index)}
                       alt={perfume.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />

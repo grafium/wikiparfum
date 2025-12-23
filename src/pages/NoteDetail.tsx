@@ -4,6 +4,7 @@ import { notes, getNoteById } from '@/data/notes';
 import { perfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
 import { getNoteImage } from '@/data/noteImages';
+import { getPerfumeImage } from '@/data/perfumeImages';
 
 export default function NoteDetail() {
   const { slug } = useParams();
@@ -180,8 +181,12 @@ export default function NoteDetail() {
                 return (
                   <Link key={perfume.id} to={`/perfumes/${perfume.slug}`} className="group">
                     <div className="bg-white rounded-lg p-4 text-center border border-border/30 hover:border-border transition-colors">
-                      <div className="w-full aspect-square bg-muted/30 rounded-lg mb-3 flex items-center justify-center">
-                        <span className="text-3xl">🧴</span>
+                      <div className="w-full aspect-square bg-muted/30 rounded-lg mb-3 overflow-hidden">
+                        <img 
+                          src={getPerfumeImage(perfumes.findIndex(p => p.id === perfume.id))}
+                          alt={perfume.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <p className="text-xs text-primary mb-1">{brand?.name}</p>
                       <h3 className="font-serif text-sm font-medium text-foreground group-hover:text-primary transition-colors">
