@@ -5,8 +5,10 @@ import { motion } from 'framer-motion';
 import { getRandomPerfume, getPopularPerfumes } from '@/data/perfumes';
 import { brands, getBrandById } from '@/data/brands';
 import { getFeaturedCollections } from '@/data/collections';
+import { getRecentBlogPosts } from '@/data/blog';
 import { getBrandImage } from '@/data/brandImages';
 import { getCollectionImage } from '@/data/collectionImages';
+import { getBlogImage } from '@/data/blogImages';
 
 // Import images
 import heroPerfume from '@/assets/hero-perfume.jpg';
@@ -23,6 +25,7 @@ export default function Index() {
   const dailyBrand = getBrandById(dailyPerfume.brandId);
   const popularPerfumes = getPopularPerfumes(8);
   const featuredCollections = getFeaturedCollections();
+  const recentBlogPosts = getRecentBlogPosts(3);
 
   return (
     <div>
@@ -206,6 +209,49 @@ export default function Index() {
                       <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded text-xs capitalize">
                         {brand.type}
                       </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Section */}
+      <section className="border-t border-border">
+        <div className="container mx-auto py-20">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="font-serif text-3xl md:text-4xl">Blog</h2>
+            <Link to="/blog" className="text-uppercase-spaced text-muted-foreground hover:text-foreground link-underline">
+              Összes cikk
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {recentBlogPosts.map((post) => {
+              const postImage = getBlogImage(post.id);
+              return (
+                <Link key={post.id} to={`/blog/${post.slug}`}>
+                  <div className="luxury-card overflow-hidden group">
+                    <div className="relative h-48 overflow-hidden">
+                      {postImage ? (
+                        <img 
+                          src={postImage} 
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
+                          <span className="text-4xl">📝</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <span className="text-xs text-primary font-medium uppercase tracking-wider">
+                        {post.category}
+                      </span>
+                      <h3 className="font-serif text-heading-3 mt-2 mb-2 line-clamp-2">{post.title}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
                     </div>
                   </div>
                 </Link>
