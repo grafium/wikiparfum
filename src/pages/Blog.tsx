@@ -32,7 +32,7 @@ export default function Blog() {
         {blogPosts.length > 0 && (
           <Link to={`/blog/${blogPosts[0].slug}`} className="block mb-16 group">
             <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="aspect-[4/3] bg-muted rounded-xl overflow-hidden">
+              <div className="aspect-[4/3] bg-muted overflow-hidden">
                 {getBlogImage(blogPosts[0].id) ? (
                   <img 
                     src={getBlogImage(blogPosts[0].id)} 

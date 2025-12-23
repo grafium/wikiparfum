@@ -214,7 +214,7 @@
   }
 
   .luxury-card {
-    @apply bg-card luxury-border transition-all duration-300;
+    @apply bg-card transition-all duration-300;
   }
 
   .luxury-card:hover {

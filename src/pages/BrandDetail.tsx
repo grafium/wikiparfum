@@ -28,7 +28,7 @@ export default function BrandDetail() {
 
       {/* Hero Image */}
       {brandImage && (
-        <div className="relative h-64 md:h-80 rounded-xl overflow-hidden mb-8">
+        <div className="relative h-64 md:h-80 overflow-hidden mb-8">
           <img 
             src={brandImage} 
             alt={brand.name}
@@ -56,7 +56,7 @@ export default function BrandDetail() {
         {perfumes.map(perfume => (
           <Link key={perfume.id} to={`/perfumes/${perfume.slug}`}>
             <div className="luxury-card p-4 text-center">
-              <div className="w-full aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center">
+              <div className="w-full aspect-square bg-muted mb-3 flex items-center justify-center">
                 <span className="text-3xl">🧴</span>
               </div>
               <h3 className="font-serif text-sm font-medium">{perfume.name}</h3>

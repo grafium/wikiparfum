@@ -113,7 +113,7 @@ export default function BlogPost() {
       {/* Featured Image + Excerpt */}
       <div className="container mx-auto px-4 max-w-5xl mb-12">
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="aspect-square bg-muted rounded-xl overflow-hidden">
+          <div className="aspect-square bg-muted overflow-hidden">
             {getBlogImage(post.id) ? (
               <img 
                 src={getBlogImage(post.id)} 
@@ -151,7 +151,7 @@ export default function BlogPost() {
                 const relatedImage = getBlogImage(relatedPost.id);
                 return (
                   <Link key={relatedPost.id} to={`/blog/${relatedPost.slug}`} className="group">
-                    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                       <div className="aspect-[16/10] bg-muted overflow-hidden">
                         {relatedImage ? (
                           <img 
