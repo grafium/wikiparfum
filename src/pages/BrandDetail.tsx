@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { getBrandBySlug } from '@/data/brands';
 import { getPerfumesByBrand } from '@/data/perfumes';
+import { getBrandImage } from '@/data/brandImages';
 
 export default function BrandDetail() {
   const { slug } = useParams();
@@ -12,6 +13,7 @@ export default function BrandDetail() {
   }
 
   const perfumes = getPerfumesByBrand(brand.id);
+  const brandImage = getBrandImage(brand.id);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -23,14 +25,29 @@ export default function BrandDetail() {
         <span className="text-foreground">{brand.name}</span>
       </nav>
 
+      {/* Hero Image */}
+      {brandImage && (
+        <div className="relative h-64 md:h-80 rounded-xl overflow-hidden mb-8">
+          <img 
+            src={brandImage} 
+            alt={brand.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <h1 className="font-serif text-display-3 text-foreground">{brand.name}</h1>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-3xl mb-12">
-        <h1 className="font-serif text-display-3 mb-4">{brand.name}</h1>
+        {!brandImage && <h1 className="font-serif text-display-3 mb-4">{brand.name}</h1>}
         <div className="flex gap-3 mb-4">
           <span className="px-3 py-1 bg-muted rounded-full text-sm">{brand.country}</span>
           <span className="px-3 py-1 bg-muted rounded-full text-sm">Alapítva: {brand.foundedYear}</span>
           <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm capitalize">{brand.type}</span>
         </div>
-        <p className="text-muted-foreground leading-relaxed">{brand.description}</p>
+        <p className="text-muted-foreground leading-relaxed text-lg">{brand.description}</p>
       </div>
 
       <h2 className="font-serif text-heading-2 mb-6">{brand.name} parfümök</h2>
