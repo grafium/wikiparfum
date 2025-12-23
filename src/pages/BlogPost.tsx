@@ -13,7 +13,15 @@ export default function BlogPost() {
     return <NotFound />;
   }
 
-  // Convert markdown-like content to HTML
+  // Parse bold text (**text**) to React elements safely
+  const parseBoldText = (text: string): React.ReactNode[] => {
+    const parts = text.split(/\*\*(.*?)\*\*/g);
+    return parts.map((part, i) => 
+      i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+    );
+  };
+
+  // Convert markdown-like content to React elements safely
   const formatContent = (content: string) => {
     return content
       .split('\n\n')
@@ -40,7 +48,7 @@ export default function BlogPost() {
           return (
             <ul key={index} className="list-disc list-inside space-y-2 text-muted-foreground my-6">
               {items.map((item, i) => (
-                <li key={i}>{item.replace('- ', '')}</li>
+                <li key={i}>{parseBoldText(item.replace('- ', ''))}</li>
               ))}
             </ul>
           );
@@ -52,7 +60,7 @@ export default function BlogPost() {
             <ol key={index} className="list-decimal list-inside space-y-3 text-muted-foreground my-6">
               {items.map((item, i) => (
                 <li key={i} className="leading-relaxed">
-                  {item.replace(/^\d+\.\s*/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
+                  {parseBoldText(item.replace(/^\d+\.\s*/, ''))}
                 </li>
               ))}
             </ol>
@@ -61,7 +69,7 @@ export default function BlogPost() {
         // Regular paragraphs
         return (
           <p key={index} className="text-muted-foreground leading-relaxed text-lg my-6">
-            {paragraph}
+            {parseBoldText(paragraph)}
           </p>
         );
       });
