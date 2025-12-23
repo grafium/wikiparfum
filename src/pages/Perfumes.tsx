@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { Grid, List, SlidersHorizontal, X, Search } from 'lucide-react';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { Grid, List, SlidersHorizontal, X, Search, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -20,9 +20,16 @@ const occasions: Occasion[] = ['iroda', 'randi', 'hétköznapi', 'elegáns', 'sp
 
 export default function Perfumes() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const handleRandomPerfume = () => {
+    const randomIndex = Math.floor(Math.random() * perfumes.length);
+    const randomPerfume = perfumes[randomIndex];
+    navigate(`/perfumes/${randomPerfume.slug}`);
+  };
 
   const selectedGenders = searchParams.getAll('gender') as Gender[];
   const selectedFamilies = searchParams.getAll('family') as FragranceFamily[];
@@ -154,7 +161,15 @@ export default function Perfumes() {
       {/* Header */}
       <div className="mb-12 text-center">
         <h1 className="font-serif text-4xl md:text-5xl mb-4">Parfümök</h1>
-        <p className="text-muted-foreground">Fedezd fel a parfümök enciklopédiáját</p>
+        <p className="text-muted-foreground mb-6">Fedezd fel a parfümök enciklopédiáját</p>
+        <Button 
+          variant="outline" 
+          onClick={handleRandomPerfume}
+          className="gap-2"
+        >
+          <Shuffle className="h-4 w-4" />
+          Random parfüm
+        </Button>
       </div>
 
       {/* Toolbar */}
