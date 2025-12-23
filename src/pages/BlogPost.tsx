@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { getBlogPostBySlug, getRecentBlogPosts } from '@/data/blog';
+import { getBlogImage } from '@/data/blogImages';
 import NotFound from './NotFound';
 
 export default function BlogPost() {
@@ -113,9 +114,17 @@ export default function BlogPost() {
       <div className="container mx-auto px-4 max-w-5xl mb-12">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="aspect-square bg-muted rounded-xl overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-              <span className="text-8xl">📖</span>
-            </div>
+            {getBlogImage(post.id) ? (
+              <img 
+                src={getBlogImage(post.id)} 
+                alt={post.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                <span className="text-8xl">📖</span>
+              </div>
+            )}
           </div>
           <div>
             <p className="font-serif text-xl md:text-2xl text-foreground leading-relaxed">
@@ -138,25 +147,36 @@ export default function BlogPost() {
               További cikkek
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {recentPosts.map(relatedPost => (
-                <Link key={relatedPost.id} to={`/blog/${relatedPost.slug}`} className="group">
-                  <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <div className="aspect-[16/10] bg-muted">
-                      <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-                        <span className="text-3xl">📝</span>
+              {recentPosts.map(relatedPost => {
+                const relatedImage = getBlogImage(relatedPost.id);
+                return (
+                  <Link key={relatedPost.id} to={`/blog/${relatedPost.slug}`} className="group">
+                    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                      <div className="aspect-[16/10] bg-muted overflow-hidden">
+                        {relatedImage ? (
+                          <img 
+                            src={relatedImage} 
+                            alt={relatedPost.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                            <span className="text-3xl">📝</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <span className="text-xs text-primary font-medium uppercase tracking-wider">
+                          {relatedPost.category}
+                        </span>
+                        <h3 className="font-serif text-lg mt-2 group-hover:text-primary transition-colors line-clamp-2">
+                          {relatedPost.title}
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-5">
-                      <span className="text-xs text-primary font-medium uppercase tracking-wider">
-                        {relatedPost.category}
-                      </span>
-                      <h3 className="font-serif text-lg mt-2 group-hover:text-primary transition-colors line-clamp-2">
-                        {relatedPost.title}
-                      </h3>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>
