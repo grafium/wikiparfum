@@ -32,7 +32,7 @@ export default function CollectionDetail() {
         ) : (
           <div className="w-full h-full bg-muted" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-background/30" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <div className="container mx-auto">
             <Link 

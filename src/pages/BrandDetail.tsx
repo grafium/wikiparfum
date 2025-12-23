@@ -35,7 +35,7 @@ export default function BrandDetail() {
             alt={brand.name}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+          <div className="absolute inset-0 bg-background/30" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <h1 className="font-serif text-display-3 text-foreground">{brand.name}</h1>
           </div>
