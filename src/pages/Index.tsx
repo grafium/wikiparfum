@@ -49,7 +49,7 @@ export default function Index() {
                   A parfümök enciklopédiája. Böngéssz márkák, illatjegyek és gyűjtemények között.
                 </p>
                 <Link to="/perfumes">
-                  <Button size="lg" variant="secondary" className="gap-2 bg-white text-foreground hover:bg-white/90">
+                  <Button size="lg" variant="gold" className="gap-2">
                     Felfedezés
                     <ArrowRight className="h-4 w-4" />
                   </Button>
