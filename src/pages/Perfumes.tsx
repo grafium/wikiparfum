@@ -113,7 +113,7 @@ export default function Perfumes() {
     </div>
   );
 
-  const SearchField = () => (
+  const renderSearchField = (
     <div className="mb-8">
       <h4 className="text-uppercase-spaced mb-4">Keresés</h4>
       <div className="relative">
@@ -137,9 +137,9 @@ export default function Perfumes() {
     </div>
   );
 
-  const FiltersContent = () => (
+  const renderFilters = (
     <>
-      <SearchField />
+      {renderSearchField}
       <FilterSection title="Nem" options={genders} selected={selectedGenders} filterKey="gender" />
       <FilterSection title="Illatcsalád" options={families} selected={selectedFamilies} filterKey="family" />
       <FilterSection title="Koncentráció" options={concentrations} selected={selectedConcentrations} filterKey="concentration" />
@@ -177,7 +177,7 @@ export default function Perfumes() {
               <SheetTitle className="text-left font-serif text-xl">Szűrők</SheetTitle>
             </SheetHeader>
             <div className="mt-8">
-              <FiltersContent />
+              {renderFilters}
             </div>
           </SheetContent>
         </Sheet>
@@ -234,7 +234,7 @@ export default function Perfumes() {
       <div className="flex gap-12">
         {/* Desktop Sidebar */}
         <aside className="hidden md:block w-60 flex-shrink-0">
-          <FiltersContent />
+          {renderFilters}
         </aside>
 
         {/* Results */}
