@@ -6,8 +6,17 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { perfumes } from '@/data/perfumes';
-import { brands, getBrandById } from '@/data/brands';
+import { getBrandById } from '@/data/brands';
 import type { Gender, FragranceFamily, Concentration, Season, Occasion, SortOption } from '@/data/types';
+
+// Import images
+import perfume1 from '@/assets/perfume-1.jpg';
+import perfume2 from '@/assets/perfume-2.jpg';
+import perfume3 from '@/assets/perfume-3.jpg';
+import perfume4 from '@/assets/perfume-4.jpg';
+import perfume5 from '@/assets/perfume-5.jpg';
+
+const perfumeImages = [perfume1, perfume2, perfume3, perfume4, perfume5];
 
 const genders: Gender[] = ['férfi', 'női', 'unisex'];
 const families: FragranceFamily[] = ['citrusos', 'virágos', 'fás', 'orientális', 'aromás', 'chypre', 'gourmand', 'aquás', 'fougère'];
@@ -82,16 +91,17 @@ export default function Perfumes() {
   const hasActiveFilters = selectedGenders.length || selectedFamilies.length || selectedConcentrations.length || selectedSeasons.length || selectedOccasions.length;
 
   const FilterSection = ({ title, options, selected, filterKey }: { title: string; options: string[]; selected: string[]; filterKey: string }) => (
-    <div className="mb-6">
-      <h4 className="font-medium mb-3">{title}</h4>
-      <div className="space-y-2">
+    <div className="mb-8">
+      <h4 className="text-uppercase-spaced mb-4">{title}</h4>
+      <div className="space-y-3">
         {options.map(option => (
-          <label key={option} className="flex items-center gap-2 cursor-pointer">
+          <label key={option} className="flex items-center gap-3 cursor-pointer group">
             <Checkbox
               checked={selected.includes(option)}
               onCheckedChange={() => toggleFilter(filterKey, option)}
+              className="border-muted-foreground/40"
             />
-            <span className="text-sm capitalize">{option}</span>
+            <span className="text-sm capitalize text-muted-foreground group-hover:text-foreground transition-colors">{option}</span>
           </label>
         ))}
       </div>
@@ -109,29 +119,33 @@ export default function Perfumes() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto py-12">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="font-serif text-display-3 mb-2">Parfümök</h1>
+      <div className="mb-12 text-center">
+        <h1 className="font-serif text-4xl md:text-5xl mb-4">Parfümök</h1>
         <p className="text-muted-foreground">Fedezd fel a parfümök enciklopédiáját</p>
       </div>
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-4 mb-6">
+      <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-border">
         {/* Mobile Filter */}
         <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
           <SheetTrigger asChild className="md:hidden">
             <Button variant="outline" size="sm" className="gap-2">
-              <SlidersHorizontal className="h-4 w-4" />
+              <SlidersHorizontal className="h-4 w-4" strokeWidth={1.5} />
               Szűrők
-              {hasActiveFilters && <span className="ml-1 px-1.5 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">{selectedGenders.length + selectedFamilies.length + selectedConcentrations.length + selectedSeasons.length + selectedOccasions.length}</span>}
+              {hasActiveFilters && (
+                <span className="ml-1 px-1.5 py-0.5 bg-foreground text-background text-xs">
+                  {selectedGenders.length + selectedFamilies.length + selectedConcentrations.length + selectedSeasons.length + selectedOccasions.length}
+                </span>
+              )}
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-80 overflow-y-auto">
             <SheetHeader>
-              <SheetTitle>Szűrők</SheetTitle>
+              <SheetTitle className="text-left font-serif text-xl">Szűrők</SheetTitle>
             </SheetHeader>
-            <div className="mt-6">
+            <div className="mt-8">
               <FiltersContent />
             </div>
           </SheetContent>
@@ -139,7 +153,7 @@ export default function Perfumes() {
 
         {/* Sort */}
         <Select value={sortBy} onValueChange={(v) => { searchParams.set('sort', v); setSearchParams(searchParams); }}>
-          <SelectTrigger className="w-44">
+          <SelectTrigger className="w-48 border-0 border-b border-border rounded-none focus:ring-0">
             <SelectValue placeholder="Rendezés" />
           </SelectTrigger>
           <SelectContent>
@@ -151,24 +165,28 @@ export default function Perfumes() {
           </SelectContent>
         </Select>
 
+        <p className="text-sm text-muted-foreground ml-auto mr-4">
+          {filteredPerfumes.length} parfüm
+        </p>
+
         {/* View Toggle */}
-        <div className="flex gap-1 ml-auto">
-          <Button variant={viewMode === 'grid' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('grid')}>
-            <Grid className="h-4 w-4" />
+        <div className="flex gap-1">
+          <Button variant="ghost" size="icon" onClick={() => setViewMode('grid')} className={viewMode === 'grid' ? 'text-foreground' : 'text-muted-foreground'}>
+            <Grid className="h-4 w-4" strokeWidth={1.5} />
           </Button>
-          <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('list')}>
-            <List className="h-4 w-4" />
+          <Button variant="ghost" size="icon" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'text-foreground' : 'text-muted-foreground'}>
+            <List className="h-4 w-4" strokeWidth={1.5} />
           </Button>
         </div>
       </div>
 
       {/* Active Filters */}
       {hasActiveFilters && (
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-8">
           {[...selectedGenders, ...selectedFamilies, ...selectedConcentrations, ...selectedSeasons, ...selectedOccasions].map((filter, i) => (
-            <span key={i} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm flex items-center gap-1 capitalize">
+            <span key={i} className="px-3 py-1.5 border border-border text-sm flex items-center gap-2 capitalize">
               {filter}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => {
+              <X className="h-3 w-3 cursor-pointer hover:text-primary" strokeWidth={1.5} onClick={() => {
                 const keys = ['gender', 'family', 'concentration', 'season', 'occasion'];
                 keys.forEach(k => {
                   if (searchParams.getAll(k).includes(filter)) toggleFilter(k, filter);
@@ -176,48 +194,56 @@ export default function Perfumes() {
               }} />
             </span>
           ))}
-          <Button variant="ghost" size="sm" onClick={clearFilters}>Összes törlése</Button>
+          <button onClick={clearFilters} className="text-sm text-muted-foreground hover:text-foreground link-underline px-2">
+            Összes törlése
+          </button>
         </div>
       )}
 
-      <div className="flex gap-8">
+      <div className="flex gap-12">
         {/* Desktop Sidebar */}
-        <aside className="hidden md:block w-56 flex-shrink-0">
+        <aside className="hidden md:block w-60 flex-shrink-0">
           <FiltersContent />
         </aside>
 
         {/* Results */}
         <div className="flex-1">
           {filteredPerfumes.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground mb-4">Nincs találat a megadott szűrőkkel.</p>
+            <div className="text-center py-24">
+              <p className="text-muted-foreground mb-6">Nincs találat a megadott szűrőkkel.</p>
               <Button variant="outline" onClick={clearFilters}>Szűrők törlése</Button>
             </div>
           ) : (
-            <div className={viewMode === 'grid' ? 'grid grid-cols-2 lg:grid-cols-3 gap-4' : 'space-y-4'}>
-              {filteredPerfumes.map((perfume) => {
+            <div className={viewMode === 'grid' ? 'grid grid-cols-2 lg:grid-cols-3 gap-8' : 'space-y-6'}>
+              {filteredPerfumes.map((perfume, index) => {
                 const brand = getBrandById(perfume.brandId);
                 return viewMode === 'grid' ? (
-                  <Link key={perfume.id} to={`/perfumes/${perfume.slug}`}>
-                    <div className="luxury-card p-4 text-center">
-                      <div className="w-full aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center">
-                        <span className="text-4xl">🧴</span>
-                      </div>
-                      <p className="text-xs text-primary mb-1">{brand?.name}</p>
-                      <h3 className="font-serif text-sm font-medium">{perfume.name}</h3>
-                      <p className="text-xs text-muted-foreground mt-1">{perfume.concentration} • {perfume.releaseYear}</p>
+                  <Link key={perfume.id} to={`/perfumes/${perfume.slug}`} className="group">
+                    <div className="mb-4 aspect-square overflow-hidden bg-muted">
+                      <img
+                        src={perfumeImages[index % perfumeImages.length]}
+                        alt={perfume.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
                     </div>
+                    <p className="text-uppercase-spaced text-muted-foreground mb-1">{brand?.name}</p>
+                    <h3 className="font-serif text-lg group-hover:text-primary transition-colors">{perfume.name}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{perfume.concentration} · {perfume.releaseYear}</p>
                   </Link>
                 ) : (
-                  <Link key={perfume.id} to={`/perfumes/${perfume.slug}`}>
-                    <div className="luxury-card p-4 flex gap-4 items-center">
-                      <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span className="text-2xl">🧴</span>
+                  <Link key={perfume.id} to={`/perfumes/${perfume.slug}`} className="group">
+                    <div className="flex gap-6 items-center py-4 border-b border-border">
+                      <div className="w-24 h-24 bg-muted flex-shrink-0 overflow-hidden">
+                        <img
+                          src={perfumeImages[index % perfumeImages.length]}
+                          alt={perfume.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs text-primary mb-1">{brand?.name}</p>
-                        <h3 className="font-serif font-medium">{perfume.name}</h3>
-                        <p className="text-sm text-muted-foreground">{perfume.concentration} • {perfume.releaseYear} • {perfume.gender}</p>
+                        <p className="text-uppercase-spaced text-muted-foreground mb-1">{brand?.name}</p>
+                        <h3 className="font-serif text-lg group-hover:text-primary transition-colors">{perfume.name}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{perfume.concentration} · {perfume.releaseYear} · {perfume.gender}</p>
                       </div>
                     </div>
                   </Link>
