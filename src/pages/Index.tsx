@@ -6,6 +6,7 @@ import { getRandomPerfume, getPopularPerfumes } from '@/data/perfumes';
 import { brands, getBrandById } from '@/data/brands';
 import { getFeaturedCollections } from '@/data/collections';
 import { getBrandImage } from '@/data/brandImages';
+import { getCollectionImage } from '@/data/collectionImages';
 
 // Import images
 import heroPerfume from '@/assets/hero-perfume.jpg';
@@ -105,22 +106,34 @@ export default function Index() {
               Összes
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
-            {featuredCollections.slice(0, 4).map((collection) => (
-              <Link key={collection.id} to={`/collections?id=${collection.slug}`} className="group">
-                <div className="bg-background p-8 h-full hover:bg-muted/30 transition-colors">
-                  <h3 className="font-serif text-xl mb-3 group-hover:text-primary transition-colors">
-                    {collection.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                    {collection.description}
-                  </p>
-                  <p className="text-uppercase-spaced text-primary">
-                    {collection.perfumeIds.length} parfüm
-                  </p>
-                </div>
-              </Link>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredCollections.slice(0, 4).map((collection) => {
+              const collectionImage = getCollectionImage(collection.id);
+              return (
+                <Link key={collection.id} to={`/collections?id=${collection.slug}`} className="group">
+                  <div className="relative h-64 rounded-lg overflow-hidden mb-4">
+                    {collectionImage ? (
+                      <img 
+                        src={collectionImage} 
+                        alt={collection.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="font-serif text-xl text-white group-hover:text-primary transition-colors">
+                        {collection.name}
+                      </h3>
+                      <p className="text-xs text-white/70">
+                        {collection.perfumeIds.length} parfüm
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
