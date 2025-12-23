@@ -1,5 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
-import { Heart, ChevronRight } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Heart, ChevronRight, ArrowLeftRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getPerfumeBySlug, getSimilarPerfumes, perfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
@@ -10,6 +10,7 @@ import { getPerfumeImage } from '@/data/perfumeImages';
 
 export default function PerfumeDetail() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const perfume = getPerfumeBySlug(slug || '');
   const { isFavorite, toggleFavorite } = useFavorites();
 
@@ -102,14 +103,24 @@ export default function PerfumeDetail() {
               </Link>
               <h1 className="font-serif text-display-3 mt-1">{perfume.name}</h1>
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => toggleFavorite(perfume.id)}
-              className={isFavorite(perfume.id) ? 'text-red-500 border-red-500' : ''}
-            >
-              <Heart className={`h-5 w-5 ${isFavorite(perfume.id) ? 'fill-current' : ''}`} />
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => navigate(`/compare?perfume1=${perfume.id}`)}
+                title="Összehasonlítás"
+              >
+                <ArrowLeftRight className="h-5 w-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => toggleFavorite(perfume.id)}
+                className={isFavorite(perfume.id) ? 'text-red-500 border-red-500' : ''}
+              >
+                <Heart className={`h-5 w-5 ${isFavorite(perfume.id) ? 'fill-current' : ''}`} />
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-2 mb-6">
