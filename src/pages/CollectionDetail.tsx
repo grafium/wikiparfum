@@ -19,7 +19,7 @@ export default function CollectionDetail() {
     .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="relative h-64 md:h-80">
         {collectionImage ? (

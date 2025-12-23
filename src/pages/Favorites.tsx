@@ -9,7 +9,8 @@ export default function Favorites() {
   const favoritePerfumes = favorites.map(id => getPerfumeById(id)).filter(Boolean);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
       <h1 className="font-serif text-display-3 mb-2">Kedvenceim</h1>
       <p className="text-muted-foreground mb-8">A kedvenc parfümjeid egy helyen</p>
 
@@ -40,6 +41,7 @@ export default function Favorites() {
           })}
         </div>
       )}
+    </div>
     </div>
   );
 }

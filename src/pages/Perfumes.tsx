@@ -119,7 +119,8 @@ export default function Perfumes() {
   );
 
   return (
-    <div className="container mx-auto py-12">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto py-12">
       {/* Header */}
       <div className="mb-12 text-center">
         <h1 className="font-serif text-4xl md:text-5xl mb-4">Parfümök</h1>
@@ -253,6 +254,7 @@ export default function Perfumes() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }

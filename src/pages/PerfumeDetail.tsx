@@ -71,7 +71,8 @@ export default function PerfumeDetail() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
         <Link to="/" className="hover:text-foreground">Kezdőlap</Link>
@@ -180,6 +181,7 @@ export default function PerfumeDetail() {
           </div>
         </section>
       )}
+    </div>
     </div>
   );
 }
