@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Grid, List, SlidersHorizontal, X } from 'lucide-react';
+import { Grid, List, SlidersHorizontal, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -21,6 +22,7 @@ export default function Perfumes() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterOpen, setFilterOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const selectedGenders = searchParams.getAll('gender') as Gender[];
   const selectedFamilies = searchParams.getAll('family') as FragranceFamily[];
@@ -46,6 +48,16 @@ export default function Perfumes() {
 
   const filteredPerfumes = useMemo(() => {
     let result = [...perfumes];
+
+    // Search by name or brand
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(p => {
+        const brand = getBrandById(p.brandId);
+        return p.name.toLowerCase().includes(query) || 
+               brand?.name.toLowerCase().includes(query);
+      });
+    }
 
     if (selectedGenders.length) {
       result = result.filter(p => selectedGenders.includes(p.gender));
@@ -79,7 +91,7 @@ export default function Perfumes() {
     }
 
     return result;
-  }, [selectedGenders, selectedFamilies, selectedConcentrations, selectedSeasons, selectedOccasions, sortBy]);
+  }, [searchQuery, selectedGenders, selectedFamilies, selectedConcentrations, selectedSeasons, selectedOccasions, sortBy]);
 
   const hasActiveFilters = selectedGenders.length || selectedFamilies.length || selectedConcentrations.length || selectedSeasons.length || selectedOccasions.length;
 
@@ -101,8 +113,33 @@ export default function Perfumes() {
     </div>
   );
 
+  const SearchField = () => (
+    <div className="mb-8">
+      <h4 className="text-uppercase-spaced mb-4">Keresés</h4>
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          type="text"
+          placeholder="Név vagy márka..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-10 bg-transparent border-border"
+        />
+        {searchQuery && (
+          <button 
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2"
+          >
+            <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
   const FiltersContent = () => (
     <>
+      <SearchField />
       <FilterSection title="Nem" options={genders} selected={selectedGenders} filterKey="gender" />
       <FilterSection title="Illatcsalád" options={families} selected={selectedFamilies} filterKey="family" />
       <FilterSection title="Koncentráció" options={concentrations} selected={selectedConcentrations} filterKey="concentration" />
