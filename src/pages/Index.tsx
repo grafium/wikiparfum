@@ -110,25 +110,27 @@ export default function Index() {
             {featuredCollections.slice(0, 4).map((collection) => {
               const collectionImage = getCollectionImage(collection.id);
               return (
-                <Link key={collection.id} to={`/collections?id=${collection.slug}`} className="group">
-                  <div className="relative h-64 rounded-lg overflow-hidden mb-4">
-                    {collectionImage ? (
-                      <img 
-                        src={collectionImage} 
-                        alt={collection.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-muted" />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-serif text-xl text-white group-hover:text-primary transition-colors">
-                        {collection.name}
-                      </h3>
-                      <p className="text-xs text-white/70">
+                <Link key={collection.id} to={`/collections/${collection.slug}`}>
+                  <div className="luxury-card overflow-hidden group">
+                    <div className="relative h-48 overflow-hidden">
+                      {collectionImage ? (
+                        <img 
+                          src={collectionImage} 
+                          alt={collection.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
+                          <span className="text-4xl">📦</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-serif text-heading-3 mb-1">{collection.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{collection.description}</p>
+                      <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded text-xs">
                         {collection.perfumeIds.length} parfüm
-                      </p>
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -177,29 +179,33 @@ export default function Index() {
               Összes
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {brands.slice(0, 8).map((brand) => {
               const brandImage = getBrandImage(brand.id);
               return (
-                <Link key={brand.id} to={`/brands/${brand.slug}`} className="group">
-                  <div className="relative h-40 md:h-48 rounded-lg overflow-hidden">
-                    {brandImage ? (
-                      <img 
-                        src={brandImage} 
-                        alt={brand.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-muted flex items-center justify-center">
-                        <span className="text-3xl font-serif text-muted-foreground">{brand.name.charAt(0)}</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors">
-                        {brand.name}
-                      </h3>
-                      <p className="text-xs text-muted-foreground">{brand.country}</p>
+                <Link key={brand.id} to={`/brands/${brand.slug}`}>
+                  <div className="luxury-card overflow-hidden group">
+                    <div className="relative h-48 overflow-hidden">
+                      {brandImage ? (
+                        <img 
+                          src={brandImage} 
+                          alt={brand.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
+                          <span className="text-4xl font-serif text-muted-foreground">
+                            {brand.name.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-serif text-heading-3 mb-1">{brand.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-3">{brand.country} • {brand.foundedYear}</p>
+                      <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded text-xs capitalize">
+                        {brand.type}
+                      </span>
                     </div>
                   </div>
                 </Link>
