@@ -1,52 +1,63 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Perfumes from "./pages/Perfumes";
-import PerfumeDetail from "./pages/PerfumeDetail";
-import Brands from "./pages/Brands";
-import BrandDetail from "./pages/BrandDetail";
-import Notes from "./pages/Notes";
-import NoteDetail from "./pages/NoteDetail";
-import Collections from "./pages/Collections";
-import CollectionDetail from "./pages/CollectionDetail";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import SearchPage from "./pages/SearchPage";
-import Favorites from "./pages/Favorites";
-import Compare from "./pages/Compare";
-import About from "./pages/About";
-import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 
+// Lazy load all page components for code splitting
+const Index = lazy(() => import("./pages/Index"));
+const Perfumes = lazy(() => import("./pages/Perfumes"));
+const PerfumeDetail = lazy(() => import("./pages/PerfumeDetail"));
+const Brands = lazy(() => import("./pages/Brands"));
+const BrandDetail = lazy(() => import("./pages/BrandDetail"));
+const Notes = lazy(() => import("./pages/Notes"));
+const NoteDetail = lazy(() => import("./pages/NoteDetail"));
+const Collections = lazy(() => import("./pages/Collections"));
+const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
+const Favorites = lazy(() => import("./pages/Favorites"));
+const Compare = lazy(() => import("./pages/Compare"));
+const About = lazy(() => import("./pages/About"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 const queryClient = new QueryClient();
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-pulse text-muted-foreground">Betöltés...</div>
+  </div>
+);
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Index />} />
-        <Route path="/perfumes" element={<Perfumes />} />
-        <Route path="/perfumes/:slug" element={<PerfumeDetail />} />
-        <Route path="/brands" element={<Brands />} />
-        <Route path="/brands/:slug" element={<BrandDetail />} />
-        <Route path="/notes" element={<Notes />} />
-        <Route path="/notes/:slug" element={<NoteDetail />} />
-        <Route path="/collections" element={<Collections />} />
-        <Route path="/collections/:slug" element={<CollectionDetail />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/compare" element={<Compare />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/about" element={<About />} />
-      </Route>
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Index />} />
+          <Route path="/perfumes" element={<Perfumes />} />
+          <Route path="/perfumes/:slug" element={<PerfumeDetail />} />
+          <Route path="/brands" element={<Brands />} />
+          <Route path="/brands/:slug" element={<BrandDetail />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/notes/:slug" element={<NoteDetail />} />
+          <Route path="/collections" element={<Collections />} />
+          <Route path="/collections/:slug" element={<CollectionDetail />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/about" element={<About />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 
