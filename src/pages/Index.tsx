@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { getRandomPerfume, getPopularPerfumes } from '@/data/perfumes';
 import { brands, getBrandById } from '@/data/brands';
 import { getFeaturedCollections } from '@/data/collections';
+import { getBrandImage } from '@/data/brandImages';
 
 // Import images
 import heroPerfume from '@/assets/hero-perfume.jpg';
@@ -163,14 +164,34 @@ export default function Index() {
               Összes
             </Link>
           </div>
-          <div className="flex flex-wrap gap-4">
-            {brands.slice(0, 8).map((brand) => (
-              <Link key={brand.id} to={`/brands/${brand.slug}`}>
-                <div className="px-6 py-3 bg-background border border-border hover:border-foreground transition-colors">
-                  <span className="text-sm">{brand.name}</span>
-                </div>
-              </Link>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {brands.slice(0, 8).map((brand) => {
+              const brandImage = getBrandImage(brand.id);
+              return (
+                <Link key={brand.id} to={`/brands/${brand.slug}`} className="group">
+                  <div className="relative h-40 md:h-48 rounded-lg overflow-hidden">
+                    {brandImage ? (
+                      <img 
+                        src={brandImage} 
+                        alt={brand.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted flex items-center justify-center">
+                        <span className="text-3xl font-serif text-muted-foreground">{brand.name.charAt(0)}</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors">
+                        {brand.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground">{brand.country}</p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
