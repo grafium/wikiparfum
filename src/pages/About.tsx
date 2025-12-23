@@ -1,6 +1,7 @@
 export default function About() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
       <h1 className="font-serif text-display-3 mb-6">Rólunk</h1>
       
       <div className="prose prose-lg">
@@ -30,6 +31,7 @@ export default function About() {
           Köszönjük, hogy velünk fedezed fel az illatok világát!
         </p>
       </div>
+    </div>
     </div>
   );
 }

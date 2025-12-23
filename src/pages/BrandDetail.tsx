@@ -16,7 +16,8 @@ export default function BrandDetail() {
   const brandImage = getBrandImage(brand.id);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
         <Link to="/" className="hover:text-foreground">Kezdőlap</Link>
         <ChevronRight className="h-4 w-4" />
@@ -64,6 +65,7 @@ export default function BrandDetail() {
           </Link>
         ))}
       </div>
+    </div>
     </div>
   );
 }

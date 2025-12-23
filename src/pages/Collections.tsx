@@ -6,7 +6,7 @@ import { getCollectionImage } from '@/data/collectionImages';
 
 export default function Collections() {
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8">
         <h1 className="font-serif text-display-3 mb-2 text-foreground">Gyűjtemények</h1>
         <p className="text-muted-foreground mb-8">Szerkesztett parfümlisták különböző alkalmakra</p>

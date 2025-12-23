@@ -6,7 +6,8 @@ export default function Brands() {
   const sorted = [...brands].sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
         <h1 className="font-serif text-display-3 mb-3">Márkák</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -47,6 +48,7 @@ export default function Brands() {
           );
         })}
       </div>
+    </div>
     </div>
   );
 }

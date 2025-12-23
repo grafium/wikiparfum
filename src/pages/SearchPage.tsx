@@ -14,7 +14,8 @@ export default function SearchPage() {
   const hasResults = perfumeResults.length || brandResults.length || noteResults.length;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
       <h1 className="font-serif text-display-3 mb-2">Keresési eredmények</h1>
       <p className="text-muted-foreground mb-8">„{query}" kifejezésre</p>
 
@@ -77,6 +78,7 @@ export default function SearchPage() {
           )}
         </div>
       )}
+    </div>
     </div>
   );
 }
