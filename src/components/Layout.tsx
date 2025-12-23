@@ -1,22 +1,21 @@
-import { useState } from 'react';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Heart, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Search, Heart, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { href: '/perfumes', label: 'Parfümök' },
-  { href: '/brands', label: 'Márkák' },
-  { href: '/notes', label: 'Illatjegyek' },
-  { href: '/collections', label: 'Gyűjtemények' },
-  { href: '/blog', label: 'Blog' },
+  { href: "/perfumes", label: "Parfümök" },
+  { href: "/brands", label: "Márkák" },
+  { href: "/notes", label: "Illatjegyek" },
+  { href: "/collections", label: "Gyűjtemények" },
 ];
 
 export default function Layout() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ export default function Layout() {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setSearchOpen(false);
-      setSearchQuery('');
+      setSearchQuery("");
     }
   };
 
@@ -48,9 +47,7 @@ export default function Layout() {
                 <SheetContent side="left" className="w-80 p-0">
                   <div className="flex flex-col h-full">
                     <div className="p-6 border-b border-border">
-                      <span className="font-serif text-xl tracking-wide">
-                        Parfümpédia
-                      </span>
+                      <span className="font-serif text-xl tracking-wide">Parfümpédia</span>
                     </div>
                     <nav className="flex-1 p-6">
                       <ul className="space-y-1">
@@ -61,8 +58,8 @@ export default function Layout() {
                               onClick={() => setMobileMenuOpen(false)}
                               className={`block py-3 text-uppercase-spaced transition-colors ${
                                 location.pathname.startsWith(link.href)
-                                  ? 'text-foreground'
-                                  : 'text-muted-foreground hover:text-foreground'
+                                  ? "text-foreground"
+                                  : "text-muted-foreground hover:text-foreground"
                               }`}
                             >
                               {link.label}
@@ -88,9 +85,7 @@ export default function Layout() {
 
             {/* Logo - Center */}
             <Link to="/" className="text-center">
-              <span className="font-serif text-2xl md:text-3xl tracking-wide">
-                Parfümpédia
-              </span>
+              <span className="font-serif text-2xl md:text-3xl tracking-wide">Parfüm wikipédia</span>
             </Link>
 
             {/* Actions - right */}
@@ -104,11 +99,7 @@ export default function Layout() {
                 <Search className="h-5 w-5" strokeWidth={1.5} />
               </Button>
               <Link to="/favorites" className="hidden md:block">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-foreground hover:bg-transparent hover:text-primary"
-                >
+                <Button variant="ghost" size="icon" className="text-foreground hover:bg-transparent hover:text-primary">
                   <Heart className="h-5 w-5" strokeWidth={1.5} />
                 </Button>
               </Link>
@@ -123,8 +114,8 @@ export default function Layout() {
                 to={link.href}
                 className={`text-uppercase-spaced link-underline py-1 transition-colors ${
                   location.pathname.startsWith(link.href)
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -159,7 +150,7 @@ export default function Layout() {
                     size="icon"
                     onClick={() => {
                       setSearchOpen(false);
-                      setSearchQuery('');
+                      setSearchQuery("");
                     }}
                     className="absolute right-0 top-1/2 -translate-y-1/2 hover:bg-transparent"
                   >
@@ -188,7 +179,8 @@ export default function Layout() {
                 Parfümpédia
               </Link>
               <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                A parfümök enciklopédiája.<br />
+                A parfümök enciklopédiája.
+                <br />
                 Fedezd fel az illatok világát.
               </p>
             </div>
@@ -222,10 +214,7 @@ export default function Layout() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/search"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
+                  <Link to="/search" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                     Keresés
                   </Link>
                 </li>
@@ -236,10 +225,7 @@ export default function Layout() {
               <h4 className="text-uppercase-spaced mb-5">Információ</h4>
               <ul className="space-y-3">
                 <li>
-                  <Link
-                    to="/about"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
+                  <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                     Rólunk
                   </Link>
                 </li>
@@ -253,16 +239,10 @@ export default function Layout() {
               © {new Date().getFullYear()} Parfümpédia. Minden jog fenntartva.
             </p>
             <div className="flex items-center gap-6">
-              <Link
-                to="/about"
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <Link to="/about" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Adatvédelem
               </Link>
-              <Link
-                to="/about"
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <Link to="/about" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Felhasználási feltételek
               </Link>
             </div>
