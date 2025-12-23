@@ -31,7 +31,7 @@ export default function Index() {
             alt="Luxury perfume"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+          <div className="absolute inset-0 bg-background/20" />
           <div className="absolute inset-0 flex items-end">
             <div className="container mx-auto pb-16 md:pb-24">
               <motion.div
