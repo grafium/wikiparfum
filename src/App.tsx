@@ -12,6 +12,8 @@ import Notes from "./pages/Notes";
 import NoteDetail from "./pages/NoteDetail";
 import Collections from "./pages/Collections";
 import CollectionDetail from "./pages/CollectionDetail";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import SearchPage from "./pages/SearchPage";
 import Favorites from "./pages/Favorites";
 import About from "./pages/About";
@@ -33,8 +35,11 @@ function AppRoutes() {
         <Route path="/notes/:slug" element={<NoteDetail />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/:slug" element={<CollectionDetail />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/about" element={<About />} />
         <Route path="/about" element={<About />} />
       </Route>
       <Route path="*" element={<NotFound />} />
