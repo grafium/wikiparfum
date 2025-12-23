@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { blogPosts } from '@/data/blog';
+import { getBlogImage } from '@/data/blogImages';
 import { Calendar, Clock } from 'lucide-react';
 
 export default function Blog() {
@@ -32,9 +33,17 @@ export default function Blog() {
           <Link to={`/blog/${blogPosts[0].slug}`} className="block mb-16 group">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="aspect-[4/3] bg-muted rounded-xl overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <span className="text-6xl">📰</span>
-                </div>
+                {getBlogImage(blogPosts[0].id) ? (
+                  <img 
+                    src={getBlogImage(blogPosts[0].id)} 
+                    alt={blogPosts[0].title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                    <span className="text-6xl">📰</span>
+                  </div>
+                )}
               </div>
               <div>
                 <span className="text-uppercase-spaced text-primary mb-3 block">
@@ -63,33 +72,44 @@ export default function Blog() {
 
         {/* All Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.slice(1).map(post => (
-            <Link key={post.id} to={`/blog/${post.slug}`} className="group">
-              <div className="luxury-card overflow-hidden">
-                <div className="aspect-[16/10] bg-muted overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                    <span className="text-4xl">📝</span>
+          {blogPosts.slice(1).map(post => {
+            const image = getBlogImage(post.id);
+            return (
+              <Link key={post.id} to={`/blog/${post.slug}`} className="group">
+                <div className="luxury-card overflow-hidden">
+                  <div className="aspect-[16/10] bg-muted overflow-hidden">
+                    {image ? (
+                      <img 
+                        src={image} 
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                        <span className="text-4xl">📝</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-5">
+                    <span className="text-xs text-primary font-medium uppercase tracking-wider">
+                      {post.category}
+                    </span>
+                    <h3 className="font-serif text-lg mt-2 mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span>{new Date(post.publishedAt).toLocaleDateString('hu-HU')}</span>
+                      <span>•</span>
+                      <span>{post.readTime} perc</span>
+                    </div>
                   </div>
                 </div>
-                <div className="p-5">
-                  <span className="text-xs text-primary font-medium uppercase tracking-wider">
-                    {post.category}
-                  </span>
-                  <h3 className="font-serif text-lg mt-2 mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    <span>{new Date(post.publishedAt).toLocaleDateString('hu-HU')}</span>
-                    <span>•</span>
-                    <span>{post.readTime} perc</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
