@@ -31,7 +31,7 @@ export default function CollectionDetail() {
         ) : (
           <div className="w-full h-full bg-muted" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#faf8f5] via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <div className="container mx-auto">
             <Link 
@@ -71,8 +71,8 @@ export default function CollectionDetail() {
                 to={`/perfumes/${perfume.slug}`}
                 className="group"
               >
-                <div className="bg-white rounded-xl p-5 hover:shadow-lg transition-shadow">
-                  <div className="w-full aspect-square bg-[#f5f3f0] rounded-lg mb-4 flex items-center justify-center">
+                <div className="bg-white p-5 hover:shadow-lg transition-shadow">
+                  <div className="w-full aspect-square bg-[#f5f3f0] mb-4 flex items-center justify-center">
                     <span className="text-4xl">🧴</span>
                   </div>
                   <p className="text-xs text-primary mb-1">{brand?.name}</p>
