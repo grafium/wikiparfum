@@ -1,11 +1,12 @@
 import { useParams, Link } from 'react-router-dom';
 import { Heart, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getPerfumeBySlug, getSimilarPerfumes } from '@/data/perfumes';
+import { getPerfumeBySlug, getSimilarPerfumes, perfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
 import { getNoteById } from '@/data/notes';
 import { useFavorites } from '@/hooks/useFavorites';
 import { getNoteImage } from '@/data/noteImages';
+import { getPerfumeImage } from '@/data/perfumeImages';
 
 export default function PerfumeDetail() {
   const { slug } = useParams();
@@ -84,8 +85,12 @@ export default function PerfumeDetail() {
 
       <div className="grid md:grid-cols-2 gap-10">
         {/* Image */}
-        <div className="aspect-square bg-muted flex items-center justify-center">
-          <span className="text-8xl">🧴</span>
+        <div className="aspect-square bg-muted overflow-hidden">
+          <img 
+            src={getPerfumeImage(perfumes.findIndex(p => p.id === perfume.id))}
+            alt={perfume.name}
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Info */}
@@ -164,13 +169,17 @@ export default function PerfumeDetail() {
         <section className="mt-16">
           <h2 className="font-serif text-heading-2 mb-6">Hasonló parfümök</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {similarPerfumes.map(p => {
+            {similarPerfumes.map((p, idx) => {
               const b = getBrandById(p.brandId);
               return (
                 <Link key={p.id} to={`/perfumes/${p.slug}`}>
                   <div className="luxury-card p-4 text-center">
-                    <div className="w-full aspect-square bg-muted mb-3 flex items-center justify-center">
-                      <span className="text-3xl">🧴</span>
+                    <div className="w-full aspect-square bg-muted mb-3 overflow-hidden">
+                      <img 
+                        src={getPerfumeImage(perfumes.findIndex(perf => perf.id === p.id))}
+                        alt={p.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <p className="text-xs text-primary mb-1">{b?.name}</p>
                     <h3 className="font-serif text-sm font-medium">{p.name}</h3>

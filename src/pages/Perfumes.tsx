@@ -9,14 +9,7 @@ import { perfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
 import type { Gender, FragranceFamily, Concentration, Season, Occasion, SortOption } from '@/data/types';
 
-// Import images
-import perfume1 from '@/assets/perfume-1.jpg';
-import perfume2 from '@/assets/perfume-2.jpg';
-import perfume3 from '@/assets/perfume-3.jpg';
-import perfume4 from '@/assets/perfume-4.jpg';
-import perfume5 from '@/assets/perfume-5.jpg';
-
-const perfumeImages = [perfume1, perfume2, perfume3, perfume4, perfume5];
+import { getPerfumeImage } from '@/data/perfumeImages';
 
 const genders: Gender[] = ['férfi', 'női', 'unisex'];
 const families: FragranceFamily[] = ['citrusos', 'virágos', 'fás', 'orientális', 'aromás', 'chypre', 'gourmand', 'aquás', 'fougère'];
@@ -222,7 +215,7 @@ export default function Perfumes() {
                   <Link key={perfume.id} to={`/perfumes/${perfume.slug}`} className="group">
                     <div className="mb-4 aspect-square overflow-hidden bg-muted">
                       <img
-                        src={perfumeImages[index % perfumeImages.length]}
+                        src={getPerfumeImage(index)}
                         alt={perfume.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
@@ -236,7 +229,7 @@ export default function Perfumes() {
                     <div className="flex gap-6 items-center py-4 border-b border-border">
                       <div className="w-24 h-24 bg-muted flex-shrink-0 overflow-hidden">
                         <img
-                          src={perfumeImages[index % perfumeImages.length]}
+                          src={getPerfumeImage(index)}
                           alt={perfume.name}
                           className="w-full h-full object-cover"
                         />

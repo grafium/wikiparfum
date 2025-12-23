@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { getBrandBySlug } from '@/data/brands';
-import { getPerfumesByBrand } from '@/data/perfumes';
+import { getPerfumesByBrand, perfumes as allPerfumes } from '@/data/perfumes';
 import { getBrandImage } from '@/data/brandImages';
+import { getPerfumeImage } from '@/data/perfumeImages';
 
 export default function BrandDetail() {
   const { slug } = useParams();
@@ -56,8 +57,12 @@ export default function BrandDetail() {
         {perfumes.map(perfume => (
           <Link key={perfume.id} to={`/perfumes/${perfume.slug}`}>
             <div className="luxury-card p-4 text-center">
-              <div className="w-full aspect-square bg-muted mb-3 flex items-center justify-center">
-                <span className="text-3xl">🧴</span>
+              <div className="w-full aspect-square bg-muted mb-3 overflow-hidden">
+                <img 
+                  src={getPerfumeImage(allPerfumes.findIndex(p => p.id === perfume.id))}
+                  alt={perfume.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="font-serif text-sm font-medium">{perfume.name}</h3>
               <p className="text-xs text-muted-foreground mt-1">{perfume.concentration} • {perfume.releaseYear}</p>
