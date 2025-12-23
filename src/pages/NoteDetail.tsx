@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { notes, getNoteById } from '@/data/notes';
 import { perfumes } from '@/data/perfumes';
 import { getBrandById } from '@/data/brands';
+import { getNoteImage } from '@/data/noteImages';
 
 export default function NoteDetail() {
   const { slug } = useParams();
@@ -17,6 +18,7 @@ export default function NoteDetail() {
   );
 
   const pairsWithNotes = note.pairsWith.map(id => getNoteById(id)).filter(Boolean);
+  const noteImage = getNoteImage(note.id);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -28,23 +30,64 @@ export default function NoteDetail() {
         <span className="text-foreground">{note.name}</span>
       </nav>
 
-      <div className="max-w-3xl mb-12">
-        <span className="text-sm text-primary capitalize">{note.category}</span>
-        <h1 className="font-serif text-display-3 mt-1 mb-4">{note.name}</h1>
-        <p className="text-muted-foreground leading-relaxed">{note.description}</p>
+      <div className="flex flex-col md:flex-row gap-8 mb-12">
+        {/* Note Image */}
+        <div className="flex-shrink-0">
+          <div className="w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-border overflow-hidden bg-muted mx-auto">
+            {noteImage ? (
+              <img 
+                src={noteImage} 
+                alt={note.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground text-4xl">
+                {note.name.charAt(0)}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Note Info */}
+        <div className="flex-1">
+          <span className="text-sm text-primary capitalize font-medium">{note.category}</span>
+          <h1 className="font-serif text-display-3 mt-1 mb-4">{note.name}</h1>
+          <p className="text-muted-foreground leading-relaxed text-lg">{note.description}</p>
+        </div>
       </div>
 
       {pairsWithNotes.length > 0 && (
         <section className="mb-12">
-          <h2 className="font-serif text-heading-2 mb-4">Jól párosul vele</h2>
-          <div className="flex flex-wrap gap-2">
-            {pairsWithNotes.map(n => n && (
-              <Link key={n.id} to={`/notes/${n.slug}`}>
-                <span className="px-4 py-2 bg-muted rounded-full text-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                  {n.name}
-                </span>
-              </Link>
-            ))}
+          <h2 className="font-serif text-heading-2 mb-6">Jól párosul vele</h2>
+          <div className="flex flex-wrap gap-4">
+            {pairsWithNotes.map(n => {
+              if (!n) return null;
+              const img = getNoteImage(n.id);
+              return (
+                <Link 
+                  key={n.id} 
+                  to={`/notes/${n.slug}`}
+                  className="group flex flex-col items-center text-center"
+                >
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-border/50 group-hover:border-primary transition-colors overflow-hidden bg-muted mb-2">
+                    {img ? (
+                      <img 
+                        src={img} 
+                        alt={n.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
+                        {n.name.charAt(0)}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-xs md:text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                    {n.name}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </section>
       )}
